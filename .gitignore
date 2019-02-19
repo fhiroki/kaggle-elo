@@ -1,0 +1,4 @@
+input/*
+*csv
+.ipynv_checkpoints
+*.png

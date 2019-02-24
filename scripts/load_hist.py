@@ -41,7 +41,7 @@ def historical_transactions(num_rows=None):
     # Good Friday: April 14 2017
     hist_df['Good_Friday_2017'] = (pd.to_datetime('2017-04-14') - hist_df['purchase_date']).dt.days.apply(
         lambda x: x if x > 0 and x < 100 else 0)
-    Tiradentes: April 21 2017
+    # Tiradentes: April 21 2017
     hist_df['Tiradentes_Day_2017'] = (pd.to_datetime('2017-04-21') - hist_df['purchase_date']).dt.days.apply(
         lambda x: x if x > 0 and x < 100 else 0)
     # Mothers Day: May 14 2017
@@ -73,7 +73,7 @@ def historical_transactions(num_rows=None):
     # Good Friday: March 30 2018
     hist_df['Good_Friday_2018'] = (pd.to_datetime('2018-03-30') - hist_df['purchase_date']).dt.days.apply(
         lambda x: x if x > 0 and x < 100 else 0)
-    Tiradentes: April 21 2018
+    # Tiradentes: April 21 2018
     hist_df['Tiradentes_Day_2018'] = (pd.to_datetime('2018-04-21') - hist_df['purchase_date']).dt.days.apply(
         lambda x: x if x > 0 and x < 100 else 0)
     # Mothers Day: May 13 2018

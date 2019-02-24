@@ -1,6 +1,7 @@
 input/*
-*csv
-.ipynv_checkpoints
-*.png
-.DS_Store
+output/*
+.ipynb_checkpoints
 *.xlsx
+*.csv
+.DS_Store
+__pycache__

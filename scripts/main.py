@@ -33,6 +33,5 @@ def main(debug=False):
 
 
 if __name__ == "__main__":
-    submission_file_name = "submission.csv"
     with utils.timer("Full model run"):
         main(debug=True)

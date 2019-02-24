@@ -3,5 +3,6 @@ output/*
 .ipynb_checkpoints
 *.xlsx
 *.csv
+.vscode
 .DS_Store
 __pycache__

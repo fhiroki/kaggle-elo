@@ -38,31 +38,49 @@ def historical_transactions(num_rows=None):
     # additional features
     hist_df['price'] = hist_df['purchase_amount'] / hist_df['installments']
 
-    # Christmas : December 25 2017
-    hist_df['Christmas_Day_2017'] = (pd.to_datetime('2017-12-25') - hist_df['purchase_date']).dt.days.apply(
+    # Good Friday: April 14 2017
+    hist_df['Good_Friday_2017'] = (pd.to_datetime('2017-04-14') - hist_df['purchase_date']).dt.days.apply(
+        lambda x: x if x > 0 and x < 100 else 0)
+    Tiradentes: April 21 2017
+    hist_df['Tiradentes_Day_2017'] = (pd.to_datetime('2017-04-21') - hist_df['purchase_date']).dt.days.apply(
         lambda x: x if x > 0 and x < 100 else 0)
     # Mothers Day: May 14 2017
     hist_df['Mothers_Day_2017'] = (pd.to_datetime('2017-06-04') - hist_df['purchase_date']).dt.days.apply(
         lambda x: x if x > 0 and x < 100 else 0)
-    # fathers day: August 13 2017
-    hist_df['fathers_day_2017'] = (pd.to_datetime('2017-08-13') - hist_df['purchase_date']).dt.days.apply(
-        lambda x: x if x > 0 and x < 100 else 0)
-    # Childrens day: October 12 2017
-    hist_df['Children_day_2017'] = (pd.to_datetime('2017-10-12') - hist_df['purchase_date']).dt.days.apply(
-        lambda x: x if x > 0 and x < 100 else 0)
-    # Valentine's Day : 12th June, 2017
+    # Valentine's Day : June 12 2017
     hist_df['Valentine_Day_2017'] = (pd.to_datetime('2017-06-12') - hist_df['purchase_date']).dt.days.apply(
         lambda x: x if x > 0 and x < 100 else 0)
-    # Black Friday : 24th November 2017
+    # Fathers Day: August 13 2017
+    hist_df['Fathers_Day_2017'] = (pd.to_datetime('2017-08-13') - hist_df['purchase_date']).dt.days.apply(
+        lambda x: x if x > 0 and x < 100 else 0)
+    # Independence Day: September 7 2017
+    hist_df['Independence_Day_2017'] = (pd.to_datetime('2017-09-07') - hist_df['purchase_date']).dt.days.apply(
+        lambda x: x if x > 0 and x < 100 else 0)
+    # Childrens Day: October 12 2017
+    hist_df['Children_Day_2017'] = (pd.to_datetime('2017-10-12') - hist_df['purchase_date']).dt.days.apply(
+        lambda x: x if x > 0 and x < 100 else 0)
+    # Black Friday : November 24 2017
     hist_df['Black_Friday_2017'] = (pd.to_datetime('2017-11-24') - hist_df['purchase_date']).dt.days.apply(
+        lambda x: x if x > 0 and x < 100 else 0)
+    # Christmas : December 25 2017
+    hist_df['Christmas_Day_2017'] = (pd.to_datetime('2017-12-25') - hist_df['purchase_date']).dt.days.apply(
         lambda x: x if x > 0 and x < 100 else 0)
 
     # 2018
+    # New Year's Day : January 01 2018
+    hist_df['New_Years_Day_2018'] = (pd.to_datetime('2018-01-01') - hist_df['purchase_date']).dt.days.apply(
+        lambda x: x if x > 0 and x < 100 else 0)
+    # Good Friday: March 30 2018
+    hist_df['Good_Friday_2018'] = (pd.to_datetime('2018-03-30') - hist_df['purchase_date']).dt.days.apply(
+        lambda x: x if x > 0 and x < 100 else 0)
+    Tiradentes: April 21 2018
+    hist_df['Tiradentes_Day_2018'] = (pd.to_datetime('2018-04-21') - hist_df['purchase_date']).dt.days.apply(
+        lambda x: x if x > 0 and x < 100 else 0)
     # Mothers Day: May 13 2018
     hist_df['Mothers_Day_2018'] = (pd.to_datetime('2018-05-13') - hist_df['purchase_date']).dt.days.apply(
         lambda x: x if x > 0 and x < 100 else 0)
 
-    hist_df['month_diff'] = ((datetime.datetime.today() - hist_df['purchase_date']).dt.days)//30
+    hist_df['month_diff'] = ((datetime.datetime.today() - hist_df['purchase_date']).dt.days) // 30
     hist_df['month_diff'] += hist_df['month_lag']
 
     # additional features
@@ -90,28 +108,34 @@ def historical_transactions(num_rows=None):
     aggs['authorized_flag'] = ['mean']
     aggs['weekend'] = ['mean']  # overwrite
     aggs['weekday'] = ['mean']  # overwrite
-    aggs['day'] = ['nunique', 'mean', 'min']   # overwrite
+    aggs['day'] = ['nunique', 'mean', 'min']  # overwrite
     aggs['category_1'] = ['mean']
     aggs['category_2'] = ['mean']
     aggs['category_3'] = ['mean']
     aggs['card_id'] = ['size', 'count']
     aggs['price'] = ['sum', 'mean', 'max', 'min', 'var']
-    aggs['Christmas_Day_2017'] = ['mean']
+    aggs['Good_Friday_2017'] = ['mean']
+    aggs['Tiradentes_Day_2017'] = ['mean']
     aggs['Mothers_Day_2017'] = ['mean']
-    aggs['fathers_day_2017'] = ['mean']
-    aggs['Children_day_2017'] = ['mean']
+    aggs['Fathers_Day_2017'] = ['mean']
+    aggs['Independence_Day_2017'] = ['mean']
+    aggs['Children_Day_2017'] = ['mean']
     aggs['Valentine_Day_2017'] = ['mean']
     aggs['Black_Friday_2017'] = ['mean']
+    aggs['Christmas_Day_2017'] = ['mean']
+    aggs['New_Years_Day_2018'] = ['mean']
+    aggs['Good_Friday_2018'] = ['mean']
+    aggs['Tiradentes_Day_2018'] = ['mean']
     aggs['Mothers_Day_2018'] = ['mean']
     aggs['duration'] = ['mean', 'min', 'max', 'var', 'skew']
     aggs['amount_month_ratio'] = ['mean', 'min', 'max', 'var', 'skew']
 
     for col in ['category_2', 'category_3']:
-        hist_df[col+'_mean'] = hist_df.groupby([col])['purchase_amount'].transform('mean')
-        hist_df[col+'_min'] = hist_df.groupby([col])['purchase_amount'].transform('min')
-        hist_df[col+'_max'] = hist_df.groupby([col])['purchase_amount'].transform('max')
-        hist_df[col+'_sum'] = hist_df.groupby([col])['purchase_amount'].transform('sum')
-        aggs[col+'_mean'] = ['mean']
+        hist_df[col + '_mean'] = hist_df.groupby([col])['purchase_amount'].transform('mean')
+        hist_df[col + '_min'] = hist_df.groupby([col])['purchase_amount'].transform('min')
+        hist_df[col + '_max'] = hist_df.groupby([col])['purchase_amount'].transform('max')
+        hist_df[col + '_sum'] = hist_df.groupby([col])['purchase_amount'].transform('sum')
+        aggs[col + '_mean'] = ['mean']
 
     hist_df = hist_df.reset_index().groupby('card_id').agg(aggs)
 

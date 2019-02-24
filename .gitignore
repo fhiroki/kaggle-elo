@@ -2,3 +2,5 @@ input/*
 *csv
 .ipynv_checkpoints
 *.png
+.DS_Store
+*.xlsx

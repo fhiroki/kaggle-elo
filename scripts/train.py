@@ -49,7 +49,7 @@ def kfold_lightgbm(train_df, test_df, target, num_folds, stratified=False, debug
                 'boosting': 'goss',
                 'objective': 'regression',
                 'metric': 'rmse',
-                'learning_rate': 0.01,
+                'learning_rate': 0.005,
                 'subsample': 0.9855232997390695,
                 'max_depth': 7,
                 'top_rate': 0.9064148448434349,
@@ -60,8 +60,11 @@ def kfold_lightgbm(train_df, test_df, target, num_folds, stratified=False, debug
                 'colsample_bytree': 0.5665320670155495,
                 'min_split_gain': 9.820197773625843,
                 'reg_lambda': 8.2532317400459,
-                'min_data_in_leaf': 21,
+                # 'min_data_in_leaf': 21,
+                'min_data_in_leaf': 50,
                 'verbose': -1,
+                'device': 'cpu' if debug else 'gpu',
+                'n_jobs': -1,
                 'seed': int(2**n_fold),
                 'bagging_seed': int(2**n_fold),
                 'drop_seed': int(2**n_fold)
@@ -99,4 +102,4 @@ def kfold_lightgbm(train_df, test_df, target, num_folds, stratified=False, debug
         # save submission file
         test_df.loc[:, 'target'] = sub_preds
         test_df = test_df.reset_index()
-        test_df[['card_id', 'target']].to_csv('submit.csv', index=False)
+        test_df[['card_id', 'target']].to_csv('../output/submit.csv', index=False)

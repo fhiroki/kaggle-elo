@@ -42,6 +42,10 @@ def train_test(num_rows=None):
     df['days_feature2_ratio'] = df['feature_2'] / df['elapsed_time']
     df['days_feature3_ratio'] = df['feature_3'] / df['elapsed_time']
 
+    df['days_feature12_ratio'] = df['feature_1'] / df['feature_2']
+    df['days_feature13_ratio'] = df['feature_1'] / df['feature_3']
+    df['days_feature23_ratio'] = df['feature_2'] / df['feature_3']
+
     # one hot encoding
     df, cols = utils.one_hot_encoder(df, nan_as_category=False)
 

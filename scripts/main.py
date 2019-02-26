@@ -30,14 +30,13 @@ def main(debug=False, is_load=True):
 
             train_df.to_csv('../input/pre_process/train.csv')
             test_df.to_csv('../input/pre_process/test.csv')
-            target.to_csv('../input/pre_process/target.csv', index=False)
 
             del df
             gc.collect()
     else:
-        train_df = pd.read_csv('../input/pre_process/train.csv')[:-1]
+        train_df = pd.read_csv('../input/pre_process/train.csv')
         test_df = pd.read_csv('../input/pre_process/test.csv')
-        target = pd.read_csv('../input/pre_process/target.csv').iloc[:, 1]
+        target = train_df['target']
 
     with utils.timer("Run LightGBM with kfold"):
         train.kfold_lightgbm(train_df, test_df, target, num_folds=11, stratified=False, debug=debug)
@@ -45,4 +44,4 @@ def main(debug=False, is_load=True):
 
 if __name__ == "__main__":
     with utils.timer("Full model run"):
-        main(debug=False, is_load=True)
+        main(debug=False, is_load=False)

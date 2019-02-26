@@ -1,8 +1,10 @@
+from datetime import datetime
 import gc
+import os
+
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
-
 from sklearn.model_selection import KFold, StratifiedKFold
 
 import utils
@@ -49,9 +51,9 @@ def kfold_lightgbm(train_df, test_df, target, num_folds, stratified=False, debug
                 'boosting': 'goss',
                 'objective': 'regression',
                 'metric': 'rmse',
-                'learning_rate': 0.005,
+                'learning_rate': 0.003,
                 'subsample': 0.9855232997390695,
-                'max_depth': 7,
+                'max_depth': 8,
                 'top_rate': 0.9064148448434349,
                 'num_leaves': 63,
                 'min_child_weight': 41.9612869171337,
@@ -60,8 +62,7 @@ def kfold_lightgbm(train_df, test_df, target, num_folds, stratified=False, debug
                 'colsample_bytree': 0.5665320670155495,
                 'min_split_gain': 9.820197773625843,
                 'reg_lambda': 8.2532317400459,
-                # 'min_data_in_leaf': 21,
-                'min_data_in_leaf': 50,
+                'min_data_in_leaf': 21,
                 'verbose': -1,
                 'device': 'cpu' if debug else 'gpu',
                 'n_jobs': -1,
@@ -76,7 +77,7 @@ def kfold_lightgbm(train_df, test_df, target, num_folds, stratified=False, debug
                         valid_sets=[lgb_train, lgb_test],
                         valid_names=['train', 'test'],
                         num_boost_round=10000,
-                        early_stopping_rounds=200,
+                        early_stopping_rounds=100,
                         verbose_eval=100
                         )
 
@@ -89,11 +90,12 @@ def kfold_lightgbm(train_df, test_df, target, num_folds, stratified=False, debug
                                                                            iteration=reg.best_iteration))
         fold_importance_df["fold"] = n_fold + 1
         feature_importance_df = pd.concat([feature_importance_df, fold_importance_df], axis=0)
-        print('Fold %2d RMSE : %.6f' % (n_fold + 1, utils.rmse(valid_y, oof_preds[valid_idx])))
+        print('Fold %2d RMSE : %.6f\n' % (n_fold + 1, utils.rmse(valid_y, oof_preds[valid_idx])))
         del reg, train_x, train_y, valid_x, valid_y
         gc.collect()
 
-    print('Final RMSE : %.6f' % (utils.rmse(target, oof_preds)))
+    score = utils.rmse(target, oof_preds)
+    print('Final RMSE : %.6f\n' % (score))
 
     # display importances
     utils.display_importances(feature_importance_df)
@@ -102,4 +104,8 @@ def kfold_lightgbm(train_df, test_df, target, num_folds, stratified=False, debug
         # save submission file
         test_df.loc[:, 'target'] = sub_preds
         test_df = test_df.reset_index()
-        test_df[['card_id', 'target']].to_csv('../output/submit.csv', index=False)
+        combine_db = pd.read_csv('../input/combining_submission.csv')
+        test_df['target'] = 0.6 * test_df['target'] + 0.4 * combine_db['target']
+
+        filename = 'score_{:.6f}_{}.csv'.format(score, datetime.now().strftime('%Y-%m-%d-%H-%M'))
+        test_df[['card_id', 'target']].to_csv(os.path.join("../output", filename), index=False)

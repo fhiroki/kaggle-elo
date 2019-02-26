@@ -23,7 +23,7 @@ def additional_features(df):
     df['purchase_amount_min'] = df['new_purchase_amount_min'] + df['hist_purchase_amount_min']
     df['purchase_amount_ratio'] = df['new_purchase_amount_sum'] / df['hist_purchase_amount_sum']
     df['month_diff_mean'] = df['new_month_diff_mean'] + df['hist_month_diff_mean']
-    df['month_diff_ratio'] = df['new_month_diff_mean']/df['hist_month_diff_mean']
+    df['month_diff_ratio'] = df['new_month_diff_mean'] / df['hist_month_diff_mean']
     df['month_lag_mean'] = df['new_month_lag_mean'] + df['hist_month_lag_mean']
     df['month_lag_max'] = df['new_month_lag_max'] + df['hist_month_lag_max']
     df['month_lag_min'] = df['new_month_lag_min'] + df['hist_month_lag_min']

@@ -18,7 +18,7 @@ def new_merchant_transactions(num_rows=None):
     new_merchant_df['installments'].replace(999, np.nan, inplace=True)
 
     # trim
-    new_merchant_df['purchase_amount'] = new_merchant_df['purchase_amount'].apply(lambda x: min(x, 0.8))
+    # new_merchant_df['purchase_amount'] = new_merchant_df['purchase_amount'].apply(lambda x: min(x, 0.8))
 
     # Y/N to 1/0
     new_merchant_df['authorized_flag'] = new_merchant_df['authorized_flag'].map({'Y': 1, 'N': -1}).astype(int)
@@ -37,46 +37,45 @@ def new_merchant_transactions(num_rows=None):
     # additional features
     new_merchant_df['price'] = new_merchant_df['purchase_amount'] / new_merchant_df['installments']
 
-    # Good Friday: April 14 2017
-    new_merchant_df['Good_Friday_2017'] = (pd.to_datetime('2017-04-14') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > 0 and x < 10 else 0)
+    # new_merchant_df['Good_Friday_2017'] = (pd.to_datetime('2017-04-14') - new_merchant_df['purchase_date'])\
+    #     .dt.days.apply(lambda x: x if x > 0 and x < 10 else 0)
     # Tiradentes: April 21 2017
-    new_merchant_df['Tiradentes_Day_2017'] = (pd.to_datetime('2017-04-21') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > 0 and x < 10 else 0)
+    # new_merchant_df['Tiradentes_Day_2017'] = (pd.to_datetime('2017-04-21') - new_merchant_df['purchase_date'])\
+    #     .dt.days.apply(lambda x: x if x > 0 and x < 10 else 0)
     # Mothers Day: May 14 2017
     new_merchant_df['Mothers_Day_2017'] = (pd.to_datetime('2017-06-04') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > 0 and x < 20 else 0)
+        .dt.days.apply(lambda x: x if x > 0 and x < 100 else 0)
     # Valentine's Day : June 12 2017
     new_merchant_df['Valentine_Day_2017'] = (pd.to_datetime('2017-06-12') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > 0 and x < 30 else 0)
+        .dt.days.apply(lambda x: x if x > 0 and x < 100 else 0)
     # Fathers Day: August 13 2017
     new_merchant_df['Fathers_Day_2017'] = (pd.to_datetime('2017-08-13') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > 0 and x < 20 else 0)
+        .dt.days.apply(lambda x: x if x > 0 and x < 100 else 0)
     # Independence Day: September 7 2017
-    new_merchant_df['Independence_Day_2017'] = (pd.to_datetime('2017-09-07') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > 0 and x < 10 else 0)
+    # new_merchant_df['Independence_Day_2017'] = (pd.to_datetime('2017-09-07') - new_merchant_df['purchase_date'])\
+    #     .dt.days.apply(lambda x: x if x > 0 and x < 50 else 0)
     # Childrens Day: October 12 2017
     new_merchant_df['Children_Day_2017'] = (pd.to_datetime('2017-10-12') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > 0 and x < 10 else 0)
+        .dt.days.apply(lambda x: x if x > 0 and x < 100 else 0)
     # Black Friday : November 24 2017
     new_merchant_df['Black_Friday_2017'] = (pd.to_datetime('2017-11-24') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > -10 and x < 30 else 0)
+        .dt.days.apply(lambda x: x if x > 0 and x < 100 else 0)
     # Christmas : December 25 2017
     new_merchant_df['Christmas_Day_2017'] = (pd.to_datetime('2017-12-25') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > -10 and x < 50 else 0)
+        .dt.days.apply(lambda x: x if x > 0 and x < 100 else 0)
 
     # New Year's Day : January 01 2018
     new_merchant_df['New_Years_Day_2018'] = (pd.to_datetime('2018-01-01') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > -20 and x < 30 else 0)
+        .dt.days.apply(lambda x: x if x > 0 and x < 100 else 0)
     # Good Friday: March 30 2018
-    new_merchant_df['Good_Friday_2018'] = (pd.to_datetime('2018-03-30') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > 0 and x < 10 else 0)
+    # new_merchant_df['Good_Friday_2018'] = (pd.to_datetime('2018-03-30') - new_merchant_df['purchase_date'])\
+    #     .dt.days.apply(lambda x: x if x > 0 and x < 10 else 0)
     # Tiradentes: April 21 2018
-    new_merchant_df['Tiradentes_Day_2018'] = (pd.to_datetime('2018-04-21') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > 0 and x < 10 else 0)
+    # new_merchant_df['Tiradentes_Day_2018'] = (pd.to_datetime('2018-04-21') - new_merchant_df['purchase_date'])\
+    #     .dt.days.apply(lambda x: x if x > 0 and x < 10 else 0)
     # Mothers Day: May 13 2018
     new_merchant_df['Mothers_Day_2018'] = (pd.to_datetime('2018-05-13') - new_merchant_df['purchase_date'])\
-        .dt.days.apply(lambda x: x if x > 0 and x < 20 else 0)
+        .dt.days.apply(lambda x: x if x > 0 and x < 100 else 0)
 
     new_merchant_df['month_diff'] = ((datetime.datetime.today() - new_merchant_df['purchase_date']).dt.days)//30
     new_merchant_df['month_diff'] += new_merchant_df['month_lag']
@@ -89,7 +88,7 @@ def new_merchant_transactions(num_rows=None):
     new_merchant_df = utils.reduce_mem_usage(new_merchant_df)
 
     col_unique = ['subsector_id', 'merchant_id', 'merchant_category_id']
-    col_seas = ['month', 'hour', 'weekofyear', 'weekday', 'day']
+    col_seas = ['month', 'hour', 'weekofyear', 'weekday', 'weekend', 'day']
 
     aggs = {}
     for col in col_unique:
@@ -104,27 +103,27 @@ def new_merchant_transactions(num_rows=None):
     aggs['month_lag'] = ['max', 'min', 'mean', 'var', 'skew']
     aggs['month_diff'] = ['mean', 'var', 'skew']
     aggs['authorized_flag'] = ['mean', 'sum', 'min', 'max', 'var']
-    aggs['weekend'] = ['mean']
-    aggs['month'] = ['mean', 'min', 'max']
-    aggs['weekday'] = ['mean', 'min', 'max']
+    # aggs['weekend'] = ['mean']
+    # aggs['month'] = ['mean', 'min', 'max']
+    # aggs['weekday'] = ['mean', 'min', 'max']
     aggs['category_1'] = ['mean']
     aggs['category_2'] = ['mean']
     aggs['category_3'] = ['mean']
     aggs['card_id'] = ['size', 'count']
     aggs['price'] = ['mean', 'max', 'min', 'var']
 
-    aggs['Good_Friday_2017'] = ['mean']
-    aggs['Tiradentes_Day_2017'] = ['mean']
+    # aggs['Good_Friday_2017'] = ['mean']
+    # aggs['Tiradentes_Day_2017'] = ['mean']
     aggs['Mothers_Day_2017'] = ['mean']
     aggs['Fathers_Day_2017'] = ['mean']
-    aggs['Independence_Day_2017'] = ['mean']
+    # aggs['Independence_Day_2017'] = ['mean']
     aggs['Children_Day_2017'] = ['mean']
     aggs['Valentine_Day_2017'] = ['mean']
     aggs['Black_Friday_2017'] = ['mean']
     aggs['Christmas_Day_2017'] = ['mean']
     aggs['New_Years_Day_2018'] = ['mean']
-    aggs['Good_Friday_2018'] = ['mean']
-    aggs['Tiradentes_Day_2018'] = ['mean']
+    # aggs['Good_Friday_2018'] = ['mean']
+    # aggs['Tiradentes_Day_2018'] = ['mean']
     aggs['Mothers_Day_2018'] = ['mean']
 
     aggs['duration'] = ['mean', 'min', 'max', 'var', 'skew']
